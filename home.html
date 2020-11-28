@@ -1,0 +1,293 @@
+
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <title>Medical recognize</title>
+ </head>
+ <body>
+     
+   
+     
+    <style type="text/css">
+       body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 50px;
+            flex-grow: 1;
+            width: 100%;
+            background: linear-gradient(90deg,#5041b2,#7969e6);
+       }
+       h1 {
+           color: white;
+       }
+       .wrap {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           width: 80%;
+           /* min-height: 300px; */
+            border: 1px solid #fff;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 3px 15px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 18px;
+       }
+       .wrap h4 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+       }
+       .button {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 20px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            color: #000;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 12px;
+            background: #a1f045;
+            text-decoration: none;
+       }
+       .selects {
+           padding-top: 20px;
+           padding-bottom: 20px;
+       }
+    </style>
+
+    <h1 >Medical recognize</h1>
+
+    <div class='wrap'>
+
+        <div class="selects">
+            
+            <input id='old' placeholder="Возраст от 35 до 70">
+            <input id='rost' placeholder="Рост, см">
+            <input id='weights' placeholder="Вес, см">
+            <!-- <select>
+                <option selected disabled>Возраст</option>
+                <option value="t1" >менее 20</option>
+                <option value="t2">20 - 30</option>
+                <option value="t3">30 -50</option>
+                <option value="t4">более 50</option>
+            </select> -->
+
+            <select>
+                <option selected disabled>Пол</option>
+                <option value="м" >м</option>
+                <option value="ж">ж</option>
+            </select>
+
+            <select>
+                <option selected disabled>Национальность</option>
+                <option value="азербайджанцы" >азербайджанцы</option>
+                <option value="армяне">армяне</option>
+                <option value="башкиры">башкиры</option>
+                <option value="белорусы">белорусы</option>
+                <option value="буряты">буряты</option>
+                <option value="евреи">евреи</option>
+                <option value="казахи">казахи</option>
+                <option value="киргизы">киргизы</option>
+                <option value="лезгины">лезгины</option>
+                <option value="молдаване">молдаване</option>
+                <option value="мордва">мордва</option>
+                <option value="немцы">немцы</option>
+                <option value="русские">русские</option>
+                <option value="таджики">таджики</option>
+                <option value="татары">татары</option>
+                <option value="удмурты">удмурты</option>
+                <option value="украинцы">украинцы</option>
+                <option value="чуваши">чуваши</option>
+                <option value="эстонцы">эстонцы</option>
+                <option value="другиенациональности">другие национальности</option>
+            </select>
+
+            <select>
+                <option selected disabled>Автомобиль</option>
+                <option value="автомобильxда" >Да</option>
+                <option value="автомобильxнет">Нет</option>
+            </select>
+
+            <select>
+                <option selected disabled>Велосипед</option>
+                <option value="велосипедxда" >Да</option>
+                <option value="велосипедxнет">Нет</option>
+            </select>
+
+            <select>
+                <option selected disabled>ПК</option>
+                <option value="пкxда" >Да</option>
+                <option value="пкxнет">Нет</option>
+            </select>
+
+            <select>
+                <option selected disabled>Телевизор</option>
+                <option value="телевизорxда" >Да</option>
+                <option value="телевизорxнет">Нет</option>
+            </select>
+
+            <select>
+                <option selected disabled>Дача</option>
+                <option value="дачаxда" >Да</option>
+                <option value="дачаxнет">Нет</option>
+            </select>
+
+            <select>
+                <option selected disabled>Квартира</option>
+                <option value="квартираxда" >Да</option>
+                <option value="квартираxнет">Нет</option>
+            </select>
+
+            <select>
+                <option selected disabled>Гараж</option>
+                <option value="гаражxда" >Да</option>
+                <option value="гаражxнет">Нет</option>
+            </select>
+
+        </div>
+        
+    </div>
+
+    <div onclick='postData()' class="button">
+        Предсказать
+    </div>
+
+    <div class='wrap' id='answ'>
+
+        <h4 > Артериальная гипертензия X% </h4>
+        <h4 > ОНМК X% </h4>
+        <h4 > Стенокардия, ИБС, инфаркт миокарда X% </h4>
+        <h4 > Сердечная недостаточность X% </h4>
+        <h4 > Прочие заболевания сердца X% </h4>
+        
+    </div>
+
+
+
+
+
+
+
+  <script>
+  
+  
+    async function postData() {
+        
+        var alert_fields = false
+        var inputs = document.querySelectorAll('input')
+        for (var i=0; i<inputs.length; i++) {
+            if (inputs[i].value === '') {
+                alert_fields = true
+                break
+            }
+        }
+        var selects = document.querySelectorAll('select')
+        for (var i=0; i<selects.length; i++) {
+            if (selects[i].value === 'Пол' || selects[i].value === 'Национальность' || selects[i].value === 'Автомобиль' || selects[i].value === 'Велосипед' || selects[i].value === 'ПК' || selects[i].value === 'Телевизор' || selects[i].value === 'Дача' || selects[i].value === 'Квартира' || selects[i].value === 'Гараж' ) {
+                alert_fields = true
+                break
+            }
+        }
+        if (alert_fields === true) {
+            alert('Заполните все поля')
+        } else {
+            
+            var old = document.querySelectorAll('input')[0].value
+            var old_send = ''
+            if ( 35 <= Number(old) && Number(old) < 42  ) { old_send = '35x42' }
+            if ( 42 <= Number(old) && Number(old) < 49  ) { old_send = '42x49' }
+            if ( 49 <= Number(old) && Number(old) < 56  ) { old_send = '49x56' }
+            if ( 56 <= Number(old) && Number(old) < 63  ) { old_send = '56x63' }
+            if ( 63 <= Number(old) && Number(old) < 71  ) { old_send = '63x71' }
+            if ( 35 > Number(old) || Number(old) > 71  ) { 
+                alert('Недопустимый возраст')
+                return
+            }
+            
+            var rost = document.querySelectorAll('input')[1].value
+            var weight = document.querySelectorAll('input')[2].value
+            var rost_weight = Number(rost)/Number(weight)
+            var rost_weight_send = ''
+            if ( 1.035 <= rost_weight && rost_weight < 1.567  ) { rost_weight_send = '1035x1567' }
+            if ( 1.567 <= rost_weight && rost_weight < 2.099  ) { rost_weight_send = '1567x2099' }
+            if ( 2.099 <= rost_weight && rost_weight < 2.631  ) { rost_weight_send = '2099x2631' }
+            if ( 2.631 <= rost_weight && rost_weight < 3.163  ) { rost_weight_send = '2631x3163' }
+            if ( 3.163 <= rost_weight && rost_weight <= 3.695  ) { rost_weight_send = '3163x3695' }
+            if ( 1.035 > rost_weight || rost_weight > 3.695  ) { 
+                alert('Недопустимое соотношение роста к массе')
+                return
+            }
+            
+              var text = ''
+              text = text + old_send + ' '
+              text = text + rost_weight_send
+            
+            for (var i=0; i<selects.length; i++) {
+                text = text + ' ' + selects[i].value
+            }
+            
+            
+        // Default options are marked with *
+            var response = await fetch('/enbot', {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *client
+                body: JSON.stringify( text ) // body data type must match "Content-Type" header
+            });
+            
+            var res = await response.text()
+        //   return await response.json(); // parses JSON response into native JavaScript objects
+            var arr_res = res.split(' ')
+            document.querySelectorAll('h4')[0].innerText = 'Артериальная гипертензия ' + String(Number(arr_res[0])*100).slice(0,4) + '%'
+            document.querySelectorAll('h4')[1].innerText = 'ОНМК ' + String(Number(arr_res[1])*100).slice(0,4) + '%'
+            document.querySelectorAll('h4')[2].innerText = 'Стенокардия, ИБС, инфаркт миокарда ' + String(Number(arr_res[2])*100).slice(0,4) + '%'
+            document.querySelectorAll('h4')[3].innerText = 'Сердечная недостаточность ' + String(Number(arr_res[3])*100).slice(0,4) + '%'
+            document.querySelectorAll('h4')[4].innerText = 'Прочие заболевания сердца ' + String(Number(arr_res[4])*100).slice(0,4) + '%'
+            
+            
+        }
+        
+        
+    }
+  
+    // document.querySelectorAll('.selects select')[0].children[1].value
+
+    // postData('/enbot', question).then((data) => {
+    //     let div=document.createElement('div')
+    //     data = data.replace(' .', '.').replace(' ,', ',').replace(' !', '!').replace(' ?', '?')
+    //     div.innerHTML=data
+    //     document.getElementById('chat').prepend(div)  
+    // })
+    
+    
+    
+  
+  </script>
+  
+  
+  
+  
+  
+  
+
+ </body>
+</html>
